@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ramda": "^0.24.1",
     "x-ray": "^2.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.1"
   }
 }
