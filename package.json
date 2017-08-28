@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "inquirer": "^3.2.2",
     "ramda": "^0.24.1",
     "x-ray": "^2.3.2"
