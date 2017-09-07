@@ -1,4 +1,4 @@
-const transformTwoArraysIntoCollection = require('../testdb').transformTwoArraysIntoCollection
+const transformTwoArraysIntoCollection = require('../dragonball/dragonball').transformTwoArraysIntoCollection
 
 const assert = require('chai').assert
 

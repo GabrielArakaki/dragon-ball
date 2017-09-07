@@ -4,15 +4,48 @@ const inquirer = require('inquirer')
 const childProcess = require('child_process')
 const Promise = require('bluebird')
 
+const Episodes = require('./mongoose').Episodes
 const x = xray()
 
-runProgram()
-
-function runProgram () {
+function selectEpisode () {
   getAllEpisodes()
     .then(getUserInput)
     .then(getEpisodeVideoURL)
+    .catch(handleError)
     .done(openVideoInChrome)
+}
+
+function downloadEpisodes () {
+  getAllEpisodes()
+    .map(persistURLs)
+    .catch(handleError)
+}
+
+function handleError(error) {
+  console.log('ERROR', error)
+}
+
+function persistURLs(episode) {
+  return getEpisodeVideoURL(episode.value)
+    .then(saveURLinMongo.bind(null, episode.name))
+}
+
+
+function saveURLinMongo(episodeName, finalUrl) {
+  console.log('EPISODE NAME ', episodeName)
+  console.log('FINAL URL ', finalUrl)
+  const find = Episodes.findOne({ name: episodeName }).exec()
+  find
+    .then(episode => {
+      console.log('episode', episode)
+      if (episode) return
+      console.log('Episodes', Episodes)
+      const newEpisode = new Episodes({ name: episodeName, url: finalUrl })
+      newEpisode
+        .save()
+        .then(console.log)
+        .catch(console.log)
+    })
 }
 
 function openVideoInChrome(finalUrl){
@@ -81,6 +114,8 @@ function getEpisodeVideoURL (baseURL) {
 }
 
 module.exports = {
-  transformTwoArraysIntoCollection: transformTwoArraysIntoCollection
+  transformTwoArraysIntoCollection,
+  selectEpisode,
+  downloadEpisodes
 }
 

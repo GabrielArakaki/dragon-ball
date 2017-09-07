@@ -1,0 +1,1 @@
+require('../dragonball/dragonball').selectEpisode()
