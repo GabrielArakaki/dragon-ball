@@ -7,6 +7,10 @@ const Promise = require('bluebird')
 const Episodes = require('./mongoose').Episodes
 const x = xray()
 
+const SERIES_ID = '153'
+// Dragon Ball Z -> 153
+// Dragon Ball -> 147
+
 function selectEpisode () {
   getAllEpisodes()
     .then(getUserInput)
@@ -69,7 +73,7 @@ function getAllEpisodes() {
     title: ['li a'] 
   }
   
-  const getEpisodes = Promise.promisify(x('http://www.animesonlinebr.com.br/dublados/147', '.single', scope))
+  const getEpisodes = Promise.promisify(x(`http://www.animesonlinebr.com.br/dublados/${SERIES_ID}`, '.single', scope))
   return getEpisodes()
     .then(response => {
       return transformTwoArraysIntoCollection(response.url, response.title, ['url', 'title'])
