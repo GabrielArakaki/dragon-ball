@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "download": "node bin/download",
-    "select": "node bin/select_episode",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bin/select_episode",
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",

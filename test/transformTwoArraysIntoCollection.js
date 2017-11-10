@@ -1,5 +1,4 @@
-const transformTwoArraysIntoCollection = require('../dragonball/dragonball').transformTwoArraysIntoCollection
-
+const { transformTwoArraysIntoCollection } = require('../ramda')
 const assert = require('chai').assert
 
 const array1 = ['a', 'b', 'c', 'd']

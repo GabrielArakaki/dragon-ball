@@ -1,1 +1,1 @@
-require('../dragonball/dragonball').selectEpisode()
+require('../').selectEpisode()
