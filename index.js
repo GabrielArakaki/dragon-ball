@@ -1,6 +1,6 @@
 const xray = require('x-ray')
 const R = require('ramda')
-const inquirer = require('inquirer')
+const inquirer = require('inquirer-bluebird')
 const childProcess = require('child_process')
 const Promise = require('bluebird')
 
@@ -9,18 +9,37 @@ const x = xray()
 
 const ANIME_URL = 'http://www.animesonlinebr.com.br/dublados'
 const SERIES_ID = '153'
-// Dragon Ball Z -> 153
-// Dragon Ball -> 147
+
+const ANIMES = [{
+  name: 'Dragon Ball Z',
+  value: '153',
+},
+{
+  name: 'Dragon Ball',
+  value: '147',
+}]
 
 exports.selectEpisode = () => {
-  function getAllEpisodes() {
+  function getAnime() {
+    const KEY = 'anime'
+    return inquirer
+      .prompt([{
+        type: 'list',
+        name: KEY,
+        message: 'Choose an anime:',
+        choices: ANIMES,
+      }])
+      .then(R.prop(KEY))
+  }
+
+  function getAllEpisodes(animeId) {
     const SCOPE = {
       url: ['li a@href'],
       title: ['li a'] 
     }
     
     const getEpisodes = Promise.promisify(
-      x(`${ANIME_URL}/${SERIES_ID}`, '.single', SCOPE)
+      x(`${ANIME_URL}/${animeId}`, '.single', SCOPE)
     )
     
     return getEpisodes()
@@ -45,7 +64,7 @@ exports.selectEpisode = () => {
         message: 'Choose an episode:',
         choices: episodes
       }])
-      .then(value => value.episode)
+      .then(R.prop('episode'))
   }
   
   function getEpisodeVideoURL (baseURL) {
@@ -74,7 +93,8 @@ exports.selectEpisode = () => {
   }
 
 
-  getAllEpisodes()
+  getAnime()
+    .then(getAllEpisodes)
     .then(getUserInput)
     .then(getEpisodeVideoURL)
     .catch(handleError)
