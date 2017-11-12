@@ -1,10 +1,12 @@
 const xray = require('x-ray')
 const R = require('ramda')
-const inquirer = require('inquirer-bluebird')
+const inquirer = require('inquirer')
 const childProcess = require('child_process')
 const Promise = require('bluebird')
 
 const { transformTwoArraysIntoCollection } = require('./ramda')
+
+inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 const x = xray()
 
 exports.selectEpisode = () => {
@@ -34,10 +36,14 @@ exports.selectEpisode = () => {
     const KEY = 'anime'
     return inquirer
       .prompt([{
-        type: 'list',
+        type: 'autocomplete',
         name: KEY,
         message: 'Choose an anime:',
-        choices: animes,
+        source: (answer, input) => {
+          const newInput = input || '' 
+          return Promise.resolve(R.filter(anime => new RegExp(newInput, 'i')
+            .test(anime.name), animes))
+        }
       }])
       .then(R.prop(KEY))
   }
