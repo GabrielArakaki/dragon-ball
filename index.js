@@ -7,39 +7,49 @@ const Promise = require('bluebird')
 const { transformTwoArraysIntoCollection } = require('./ramda')
 const x = xray()
 
-const ANIME_URL = 'http://www.animesonlinebr.com.br/dublados'
-const SERIES_ID = '153'
-
-const ANIMES = [{
-  name: 'Dragon Ball Z',
-  value: '153',
-},
-{
-  name: 'Dragon Ball',
-  value: '147',
-}]
-
 exports.selectEpisode = () => {
-  function getAnime() {
+  function getAllAnimes() {
+    const getAnimes = Promise.promisify(x(
+      'http://www.animesonlinebr.com.br/animes-dublados.html',
+      '.aba',
+      {url: ['li a@href'], title: ['li a']}
+    ))
+
+    return getAnimes()
+      .then(response => {
+        return transformTwoArraysIntoCollection(
+          response.url, 
+          response.title, 
+          ['url', 'title']
+        )
+      })
+      .then(R.map(episode => ({
+          name: episode.title,
+          value: episode.url
+      })))
+
+  }
+
+  function selectAnime(animes) {
     const KEY = 'anime'
     return inquirer
       .prompt([{
         type: 'list',
         name: KEY,
         message: 'Choose an anime:',
-        choices: ANIMES,
+        choices: animes,
       }])
       .then(R.prop(KEY))
   }
 
-  function getAllEpisodes(animeId) {
+  function getAllEpisodes(animeurl) {
     const SCOPE = {
       url: ['li a@href'],
       title: ['li a'] 
     }
     
     const getEpisodes = Promise.promisify(
-      x(`${ANIME_URL}/${animeId}`, '.single', SCOPE)
+      x(animeurl, '.single', SCOPE)
     )
     
     return getEpisodes()
@@ -92,8 +102,8 @@ exports.selectEpisode = () => {
     childProcess.exec(`open -a "Google Chrome" ${finalUrl}`)
   }
 
-
-  getAnime()
+  getAllAnimes()
+    .then(selectAnime)
     .then(getAllEpisodes)
     .then(getUserInput)
     .then(getEpisodeVideoURL)
