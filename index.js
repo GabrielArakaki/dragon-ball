@@ -39,11 +39,10 @@ exports.selectEpisode = () => {
         type: 'autocomplete',
         name: KEY,
         message: 'Choose an anime:',
-        source: (answer, input) => {
-          const newInput = input || '' 
-          return Promise.resolve(R.filter(anime => new RegExp(newInput, 'i')
-            .test(anime.name), animes))
-        }
+        source: (answer, input) => Promise
+          .resolve(R.filter(anime => new RegExp(input || '', 'i')
+            .test(anime.name)
+          , animes))
       }])
       .then(R.prop(KEY))
   }
@@ -75,10 +74,14 @@ exports.selectEpisode = () => {
   function getUserInput(episodes) {
     return inquirer
       .prompt([{
-        type: 'list',
+        type: 'autocomplete',
         name: 'episode',
         message: 'Choose an episode:',
-        choices: episodes
+        source: (answer, input) => Promise
+          .resolve(R.filter(episode => new RegExp(input || '', 'i')
+            .test(episode.name)
+          , episodes))
+
       }])
       .then(R.prop('episode'))
   }
