@@ -16,6 +16,14 @@
   ],
   "dependencies": {
     "videogular-themes-default": "^1.4.4",
-    "videogular": "^1.4.4"
+    "videogular": "^1.4.4",
+    "videogular-controls": "^1.4.4",
+    "videogular-buffering": "^1.4.4",
+    "videogular-overlay-play": "^1.4.4",
+    "videogular-poster": "^1.4.4",
+    "videogular-ima-ads": "^1.4.4",
+    "videogular-angulartics": "^1.4.4",
+    "angular": "^1.6.6",
+    "angular-sanitize": "^1.6.6"
   }
 }
