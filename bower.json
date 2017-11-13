@@ -1,0 +1,21 @@
+{
+  "name": "dragon-ball",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Gabriel Arakaki <guybrush182@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/GabrielArakaki/dragon-ball",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "videogular-themes-default": "^1.4.4",
+    "videogular": "^1.4.4"
+  }
+}
