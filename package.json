@@ -7,7 +7,7 @@
     "start": "node bin/select_episode",
     "test": "mocha",
     "server": "nodemon server",
-    "console": "http-server --cors -a localhost -p 8000 -c-1 ."
+    "client": "http-server --cors -a localhost -p 8000 -c-1 client"
   },
   "author": "",
   "license": "ISC",
