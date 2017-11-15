@@ -6,11 +6,13 @@
   "scripts": {
     "start": "node bin/select_episode",
     "test": "mocha",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "console": "http-server --cors -a localhost -p 8000 -c-1 ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "inquirer": "^3.3.0",
     "inquirer-autocomplete-prompt": "^0.12.0",
@@ -20,6 +22,7 @@
     "x-ray": "^2.3.2"
   },
   "devDependencies": {
-    "chai": "^4.1.1"
+    "chai": "^4.1.1",
+    "http-server": "^0.10.0"
   }
 }
