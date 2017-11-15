@@ -7,7 +7,7 @@
     "cli": "node cli",
     "test": "mocha",
     "server": "nodemon server",
-    "client": "watch-http-server --cors -a localhost -p 3005 -c-1 client"
+    "client": "http-server --cors -a localhost -p 3005 -c-1 client"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.1",
-    "nodemon": "^1.12.1",
-    "watch-http-server": "^0.7.6"
+    "http-server": "^0.10.0",
+    "nodemon": "^1.12.1"
   }
 }
