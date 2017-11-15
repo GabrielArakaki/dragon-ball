@@ -1,5 +1,7 @@
 const express = require('express')
 const cors = require('cors');
+const R = require('ramda')
+
 const app = express()
 const { getAllAnimes, getAllEpisodes, getEpisodeVideoURL } = require('./services')
 
@@ -22,6 +24,26 @@ app.get('/episodes', function(req, res) {
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
   
   getAllEpisodes(req.query.animeUrl)
+    .then(episodes => {
+      const indexes = R.map(episode => {
+        const array = episode.title
+          .split(' ')
+          .map((value, index) => {
+            if (isNaN(value)) return null
+
+            return index
+          })
+          .filter(value => value !== null)
+        console.log('ARRAY', array)
+        return array
+      }, episodes)
+      const index = R.reduce(R.intersection, R.head(indexes), indexes)
+      const newIndex = R.isEmpty(index) ? R.head(R.head(indexes)) : R.head(index)
+      return {
+        episodes: episodes,
+        index: newIndex
+      }
+    })  
     .filter(episode => new RegExp(req.query.string || '', 'i')
             .test(episode.title))
     .then(episodes => res.send(episodes))
