@@ -5,7 +5,7 @@ const childProcess = require('child_process')
 const Promise = require('bluebird')
 
 const { transformTwoArraysIntoCollection } = require('./ramda')
-const { getAllAnimes } = require('./services')
+const { getAllAnimes, getAllEpisodes } = require('./services')
 
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 const x = xray()
@@ -33,43 +33,23 @@ exports.selectEpisode = () => {
       .then(R.prop(KEY))
   }
 
-  function getAllEpisodes(animeurl) {
-    const SCOPE = {
-      url: ['li a@href'],
-      title: ['li a'] 
-    }
-    
-    const getEpisodes = Promise.promisify(
-      x(animeurl, '.single', SCOPE)
-    )
-    
-    return getEpisodes()
-      .then(response => {
-        return transformTwoArraysIntoCollection(
-          response.url, 
-          response.title, 
-          ['url', 'title']
-        )
-      })
-      .then(R.map(episode => ({
-          name: episode.title,
-          value: episode.url
-      })))
-  }
-
   function getUserInput(episodes) {
+    const KEY = 'episode'
+    const formatedEpisodes = R.map(episode => ({
+        name: episode.title,
+        value: episode.url
+    }), episodes)
     return inquirer
       .prompt([{
         type: 'autocomplete',
-        name: 'episode',
+        name: KEY,
         message: 'Choose an episode:',
         source: (answer, input) => Promise
           .resolve(R.filter(episode => new RegExp(input || '', 'i')
             .test(episode.name)
-          , episodes))
-
+          , formatedEpisodes))
       }])
-      .then(R.prop('episode'))
+      .then(R.prop(KEY))
   }
   
   function getEpisodeVideoURL (baseURL) {

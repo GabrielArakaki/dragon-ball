@@ -29,3 +29,27 @@ exports.getAllAnimes = () => {
       )
     })
 }
+
+exports.getAllEpisodes = animeurl => {
+  function getEpisodes() {
+    const episodes = cache.get('episodes')
+    if (episodes) return Promise.resolve(episodes)
+
+    return Promise.promisify(x(
+      animeurl,
+      '.single',
+      {url: ['li a@href'], title: ['li a']}
+    ))()
+      .tap(response => cache.set('episodes', response, 3600))
+  }
+
+
+  return getEpisodes()
+    .then(response => {
+      return transformTwoArraysIntoCollection(
+        response.url, 
+        response.title, 
+        ['url', 'title']
+      )
+    })
+}
