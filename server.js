@@ -4,6 +4,8 @@ const { getAllAnimes } = require('./services')
 
 app.get('/animes', function(req, res) {
   getAllAnimes()
+    .filter(anime => new RegExp(req.query.string || '', 'i')
+            .test(anime.title))
     .then(animes => res.send(animes))
 })
 

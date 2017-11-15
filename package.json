@@ -14,6 +14,7 @@
     "express": "^4.16.2",
     "inquirer": "^3.3.0",
     "inquirer-autocomplete-prompt": "^0.12.0",
+    "lru-cache": "^4.1.1",
     "mongoose": "^4.11.10",
     "ramda": "^0.24.1",
     "x-ray": "^2.3.2"
