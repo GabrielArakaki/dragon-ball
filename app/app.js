@@ -17,18 +17,10 @@ angular
   .controller('HelloController', ['$sce', '$scope', '$http', function($sce, $scope, $http) {
     $scope.message = 'TESTE DO GABAO'
     $scope.config = {
-      sources: [
-        {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
-      ],
-      tracks: [
-        {
-          src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
-          kind: "subtitles",
-          srclang: "en",
-          label: "English",
-          default: ""
-        }
-      ],
+      autoHide: true,
+      autoHideTime: 3000,
+      autoPlay: true,
+      sources: [],
       theme: "bower_components/videogular-themes-default/videogular.css",
       plugins: {
         poster: "http://www.videogular.com/assets/images/videogular.png"
@@ -57,7 +49,6 @@ angular
       return $http
         .get('http://localhost:3001/animes', { params: { string: val } })
         .then(function(response){
-          console.log('RESPONSE DATA', response.data)
           return response.data
         });
     };
@@ -67,9 +58,11 @@ angular
         .get('http://localhost:3001/episodes', 
           { params: { animeUrl: $scope.animeresult.url, string: val } })
         .then(function(response){
-          console.log('RESPONSE DATA', response.data)
           return response.data
         })
     }
 
+    $scope.onPlayerReady = function(API) {
+      $scope.API = API
+    }
   }])

@@ -12,20 +12,25 @@
           </div>
         </div>
 
-        <div class="row">
+          <div class="row">
           <div class="col-md-6 col-md-offset-3">
             <input type="text" ng-model="asyncSelected2" placeholder="Episodes loaded via $http" uib-typeahead="episode.title for episode in getEpisode($viewValue)" typeahead-on-select="onSelectEpisode($item, $model, $label)" class="form-control">
           </div>
         </div>
 
         <div class="row">
-          <videogular vg-theme="config.theme">
+          <videogular 
+            vg-player-ready="onPlayerReady($API)"
+            vg-theme="config.theme"
+            vg-auto-play="true">
+
             <vg-media 
-              vg-src="config.sources"
-              vg-tracks="config.tracks">
+              vg-src="config.sources">
             </vg-media>
 
-            <vg-controls>
+            <vg-controls 
+              vg-autohide="config.autoHide"
+              vg-autohide-time="config.autoHideTime">
               <vg-play-pause-button></vg-play-pause-button>
               <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
               <vg-scrub-bar>
