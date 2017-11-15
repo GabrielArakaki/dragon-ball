@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
+const { getAllAnimes } = require('./services')
 
 app.get('/animes', function(req, res) {
-  res.sendStatus(200)
+  getAllAnimes()
+    .then(animes => res.send(animes))
 })
 
 app.listen(3001, function() {

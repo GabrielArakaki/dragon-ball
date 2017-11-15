@@ -5,35 +5,21 @@ const childProcess = require('child_process')
 const Promise = require('bluebird')
 
 const { transformTwoArraysIntoCollection } = require('./ramda')
+const { getAllAnimes } = require('./services')
 
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 const x = xray()
 
+
 exports.selectEpisode = () => {
-  function getAllAnimes() {
-    const getAnimes = Promise.promisify(x(
-      'http://www.animesonlinebr.com.br/animes-dublados.html',
-      '.aba',
-      {url: ['li a@href'], title: ['li a']}
-    ))
-
-    return getAnimes()
-      .then(response => {
-        return transformTwoArraysIntoCollection(
-          response.url, 
-          response.title, 
-          ['url', 'title']
-        )
-      })
-      .then(R.map(episode => ({
-          name: episode.title,
-          value: episode.url
-      })))
-
-  }
-
+  
   function selectAnime(animes) {
     const KEY = 'anime'
+    const formatedAnimes = R.map(anime => ({
+      name: anime.title,
+      value: anime.url,
+    }), animes)
+
     return inquirer
       .prompt([{
         type: 'autocomplete',
@@ -42,7 +28,7 @@ exports.selectEpisode = () => {
         source: (answer, input) => Promise
           .resolve(R.filter(anime => new RegExp(input || '', 'i')
             .test(anime.name)
-          , animes))
+          , formatedAnimes))
       }])
       .then(R.prop(KEY))
   }
