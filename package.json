@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node bin/select_episode",
     "test": "mocha",
-    "dev": "node server.js",
+    "server": "nodemon server",
     "console": "http-server --cors -a localhost -p 8000 -c-1 ."
   },
   "author": "",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.1",
-    "http-server": "^0.10.0"
+    "http-server": "^0.10.0",
+    "nodemon": "^1.12.1"
   }
 }
