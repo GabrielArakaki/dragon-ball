@@ -1,6 +1,7 @@
 const xray = require('x-ray')
 const Promise = require('bluebird')
 const cache = require('lru-cache')()
+const R = require('ramda')
 
 const { transformTwoArraysIntoCollection } = require('./ramda')
 const x = xray()
@@ -32,7 +33,7 @@ exports.getAllAnimes = () => {
 
 exports.getAllEpisodes = animeurl => {
   function getEpisodes() {
-    const episodes = cache.get('episodes')
+    const episodes = cache.get(animeurl)
     if (episodes) return Promise.resolve(episodes)
 
     return Promise.promisify(x(
@@ -40,7 +41,7 @@ exports.getAllEpisodes = animeurl => {
       '.single',
       {url: ['li a@href'], title: ['li a']}
     ))()
-      .tap(response => cache.set('episodes', response, 3600))
+      .tap(response => cache.set(animeurl, response, 3600))
   }
 
 
@@ -51,5 +52,29 @@ exports.getAllEpisodes = animeurl => {
         response.title, 
         ['url', 'title']
       )
+    })
+}
+
+exports.getEpisodeVideoURL = baseURL => {
+  console.log('BASE URL', baseURL)
+   
+  function getVideoUrl() {
+    const episodes = cache.get(baseURL)
+    if (episodes) return Promise.resolve(episodes)
+
+    return Promise.promisify(x(
+      baseURL,
+      '.contentBox',
+      { url: ['link@href'], type: ['link@itemprop'] }
+    ))()
+      .tap(response => cache.set(baseURL, response, 3600))
+  }
+
+  return getVideoUrl()
+    .then(response => {
+      const finalIndex = R
+        .findIndex(item => item === 'embedURL')(response.type)
+
+      return response.url[finalIndex]  
     })
 }

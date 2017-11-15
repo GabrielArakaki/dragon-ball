@@ -5,7 +5,7 @@ const childProcess = require('child_process')
 const Promise = require('bluebird')
 
 const { transformTwoArraysIntoCollection } = require('./ramda')
-const { getAllAnimes, getAllEpisodes } = require('./services')
+const { getAllAnimes, getAllEpisodes, getEpisodeVideoURL } = require('./services')
 
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 const x = xray()
@@ -52,23 +52,7 @@ exports.selectEpisode = () => {
       .then(R.prop(KEY))
   }
   
-  function getEpisodeVideoURL (baseURL) {
-    console.log('BASE URL', baseURL)
-    const scope = {
-      url: ['link@href'],
-      type: ['link@itemprop']
-    }
   
-    const getVideoUrl = Promise.promisify(x(baseURL, '.contentBox', scope))
-    return getVideoUrl()
-      .then(response => {
-        const finalIndex = R
-          .findIndex(item => item === 'embedURL')(response.type)
-  
-        return response.url[finalIndex]  
-      })
-  }
-
   function handleError(error) {
     console.log('ERROR', error)
   }
