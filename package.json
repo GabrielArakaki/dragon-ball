@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/select_episode",
+    "cli": "node cli",
     "test": "mocha",
     "server": "nodemon server",
     "client": "http-server --cors -a localhost -p 8000 -c-1 client"
