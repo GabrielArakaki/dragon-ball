@@ -17,6 +17,7 @@ angular
   .controller('HelloController', ['$sce', '$scope', '$http', function($sce, $scope, $http) {
     $scope.message = 'TESTE DO GABAO'
     $scope.config = {
+      startTime: 120,
       autoHide: true,
       autoHideTime: 3000,
       autoPlay: true,
