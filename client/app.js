@@ -15,6 +15,7 @@ angular
     'ui.bootstrap'
   ])
   .controller('HelloController', ['$sce', '$scope', '$http', function($sce, $scope, $http) {
+    var DOMAIN = 'http://localhost:9001/'
     $scope.message = 'TESTE DO GABAO'
     $scope.config = {
       startTime: 120,
@@ -34,7 +35,7 @@ angular
     
     $scope.onSelectEpisode = function ($item, $model, $label) {
       return $http
-        .get('http://localhost:3001/episode', 
+        .get(DOMAIN + 'episode', 
           { params: { baseUrl: $item.url } })
         .then(function(response) {
           $scope.config.sources = [
@@ -48,7 +49,7 @@ angular
     
     $scope.getAnime = function(val) {
       return $http
-        .get('http://localhost:3001/animes', { params: { string: val } })
+        .get(DOMAIN + 'animes', { params: { string : val } }) 
         .then(function(response){
           return response.data
         });
@@ -56,7 +57,7 @@ angular
 
     $scope.getEpisode = function(val) {
       return $http
-        .get('http://localhost:3001/episodes', 
+        .get(DOMAIN + 'episodes', 
           { params: { animeUrl: $scope.animeresult.url, string: val } })
         .then(function(response){
           return response.data

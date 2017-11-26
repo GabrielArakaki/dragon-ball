@@ -36,6 +36,7 @@ app.get('/episode', function(req, res) {
     .then(episode => res.send(episode))
 })
 
-app.listen(3001, function() {
-  console.log('SERVER LISTENING ON 3001')
+const PORT = 9001
+app.listen(PORT, function() {
+  console.log(`SERVER LISTENING ON ${PORT}`)
 })

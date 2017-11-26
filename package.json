@@ -7,7 +7,7 @@
     "cli": "node cli",
     "test": "mocha",
     "server": "nodemon server",
-    "client": "http-server --cors -a localhost -p 3005 -c-1 client"
+    "client": "http-server --cors -a localhost -p 9000 -c-1 client"
   },
   "author": "",
   "license": "ISC",
