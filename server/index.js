@@ -5,6 +5,10 @@ const { getAllAnimes, getAllEpisodes, getEpisodeVideoURL } = require('./services
 
 app.use(cors())
 
+app.get('/', function(req, res) {
+  return res.sendStatus(200)
+})
+
 app.get('/animes', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
