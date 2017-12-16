@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <title>Dragon Ball Gabao</title>
+    <head>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Hello World</title>
+    </head>
+    <body ng-app="app" style="background-color: black">
+        <div ng-controller="HelloController">
+          <div class="container">
+            <div class="row">
+              <h1 style="text-align: center;"> Anime Watcher </h1>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <input type="text" ng-model="asyncSelected" placeholder="Animes loaded via $http" uib-typeahead="anime.title for anime in getAnime($viewValue)" typeahead-on-select="onSelectAnime($item, $model, $label)" class="form-control">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <input type="text" ng-model="asyncSelected2" placeholder="Episodes loaded via $http" uib-typeahead="episode.title for episode in getEpisode($viewValue)" typeahead-on-select="onSelectEpisode($item, $model, $label)" class="form-control">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-10">
+                <videogular 
+                  vg-player-ready="onPlayerReady($API)"
+                  vg-theme="config.theme"
+                  vg-auto-play="true"
+                  vg-start-time="config.startTime">
+
+                  <vg-media 
+                    vg-src="config.sources">
+                  </vg-media>
+
+                  <vg-controls 
+                    vg-autohide="config.autoHide"
+                    vg-autohide-time="config.autoHideTime">
+                    <vg-play-pause-button></vg-play-pause-button>
+                    <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                    <vg-scrub-bar>
+                      <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    </vg-scrub-bar>
+                    <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                    <vg-volume>
+                      <vg-mute-button></vg-mute-button>
+                      <vg-volume-bar></vg-volume-bar>
+                    </vg-volume>
+                    <vg-fullscreen-button></vg-fullscreen-button>
+                  </vg-controls>
+
+                  <vg-overlay-play></vg-overlay-play>
+                  <vg-poster vg-url='config.plugins.poster'></vg-poster>
+                </videogular>
+              </div>
+            </div>
+          </div>
+              
+        </div>
+        <script src="angular.min.js"></script>
+        <script src="angular-sanitize.min.js"></script>
+        <script src="ui-bootstrap-tpls-2.5.0.js"></script>
+        <script src="videogular.js"></script>
+        <script src="vg-controls.js"></script>
+        <script src="vg-overlay-play.js"></script>
+        <script src="vg-poster.js"></script>
+        <script src="vg-buffering.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
