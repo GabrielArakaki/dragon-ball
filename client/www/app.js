@@ -15,7 +15,7 @@ angular
     'ui.bootstrap'
   ])
   .controller('HelloController', ['$sce', '$scope', '$http', function($sce, $scope, $http) {
-    var DOMAIN = 'http://localhost:9001/'
+    var DOMAIN = 'http://ec2-54-233-124-191.sa-east-1.compute.amazonaws.com/'
     $scope.message = 'TESTE DO GABAO'
     $scope.config = {
       startTime: 120,
